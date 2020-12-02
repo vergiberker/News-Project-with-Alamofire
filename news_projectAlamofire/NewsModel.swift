@@ -14,7 +14,7 @@ class ApiResponse: Mappable {
     var articles : [News]?
     
     required init?(map: Map) {
-      
+        
     }
     
     func mapping(map: Map) {
@@ -37,11 +37,11 @@ class News: Mappable {
     var totalResults : Int?
     
     required init?(map: Map) {
-
+        
     }
-
+    
     func mapping(map: Map) {
-       title <- map["title"]
+        title <- map["title"]
         author <- map["author"]
         description <- map["description"]
         url <- map["url"]
