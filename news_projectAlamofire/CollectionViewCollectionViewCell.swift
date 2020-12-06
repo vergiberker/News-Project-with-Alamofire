@@ -12,7 +12,7 @@ class CollectionViewCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var newsTitle: UILabel!
     
-    
+   
     
     
 }

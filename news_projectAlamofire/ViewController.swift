@@ -7,6 +7,7 @@
 
 import UIKit
 import Alamofire
+import Kingfisher
 
 class ViewController: UIViewController {
     
@@ -38,6 +39,11 @@ class ViewController: UIViewController {
         }
         makeRounded()
         
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        makeRounded()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -63,7 +69,7 @@ class ViewController: UIViewController {
 
 // MARK: CollectionView Ext.
 @available(iOS 12.0, *)
-extension ViewController : UICollectionViewDelegate , UICollectionViewDataSource {
+extension ViewController : UICollectionViewDelegate , UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataSourceArray.count
     }
@@ -72,13 +78,31 @@ extension ViewController : UICollectionViewDelegate , UICollectionViewDataSource
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionViewCollectionViewCell
         cell.newsTitle.text = dataSourceArray[indexPath.row].title!
 //        let url = URL(string: dataSourceArray[indexPath.row].urlToImage!)
+        cell.layer.cornerRadius = 12
+        if let newImage = dataSourceArray[indexPath.row].urlToImage {
+            cell.newsImage.kf.setImage(with: URL(string:  newImage))
+        }
         
+        cell.clipsToBounds = true
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.performSegue(withIdentifier: "toDetail", sender: indexPath.row)
         
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+     
+            //            Tips CollectionView Layouts.
+            let layout       = Collection.collectionViewLayout as? UICollectionViewFlowLayout
+            let itemWidth    = Collection.bounds.width / 1.3
+            let itemHeight   = Collection.bounds.height / 1.0
+            layout!.itemSize = CGSize(width: itemWidth, height: itemHeight)
+            layout!.invalidateLayout()
+            return CGSize(width: itemWidth, height: itemHeight)
+       
     }
     
 }
